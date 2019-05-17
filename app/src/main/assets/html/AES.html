@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AES.html</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<script src="../js/aes.js"></script>
+<script>
+var key = getKey();
+console.log(key);
+var cipherText = AESEnc(key,"beyond黄家驹，仓木麻衣mai");
+console.log(cipherText);
+console.log(AESDec(key,cipherText));
+
+</script>
+</head>
+
+<body>
+	This is my HTML page.
+	<br>
+</body>
+</html>

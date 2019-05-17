@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RSA+AES.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="../js/rsa.js"></script>
+    <script type="text/javascript" src="../js/aes.js"></script>
+    <script type="text/javascript">
+        var key = getKey();
+        var encryptKey = RSA(key);
+        console.log("encryptKey: " + encryptKey);
+        var cipherText = AESEnc(key,"123456");
+        var plainText = AESDec(key,cipherText);
+        console.log("密文: " + cipherText);
+        console.log("明文: " + plainText);
+    </script>
+  </head>
+  
+  <body>
+    This is my HTML page. <br>
+  </body>
+</html>

@@ -34,3 +34,12 @@ openssl rsa -in ~/Desktop/rsa_private_key.pem -out rsa_public_key.pem -pubout
 ```
 openssl pkcs8 -topk8 -in ~/Desktop/rsa_private_key.pem -out pkcs8_rsa_private_key.pem -nocrypt
 ```
+
+## 使用说明
+
+1.RSAUtils中配置公钥和密钥，可以使用getKeys()方法产生。如果是客户端，则无须配置私钥，把没有私钥的RSAUtils放到客户端，
+因为仅需要用到公钥加密的方法。
+2.AESUtils中配置偏移量IV_STRING；
+3.rsa.js中最底部配置公钥，须和上面RSAUtils配置的公钥一致；
+4.aes.js中的底部var iv  = CryptoJS.enc.Utf8.parse("16-Bytes--String");   //加密向量中，替换里面的字符串，加密向量须和
+是上面的AESUtils中的偏移量一致。
