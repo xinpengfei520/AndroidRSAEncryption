@@ -8,18 +8,43 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.xpf.android.rsa.encryption.R;
+import com.xpf.android.rsa.encryption.utils.Des3Utils;
 
 public class DESEncryptionActivity extends AppCompatActivity {
+
+    private EditText etInput;
+    private TextView tvContent;
+    private String encode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_des_encryption);
-        EditText etInput = findViewById(R.id.etInput);
+        etInput = findViewById(R.id.etInput);
         Button btnEncrypt = findViewById(R.id.btnEncrypt);
         Button btnDecrypt = findViewById(R.id.btnDecrypt);
-        TextView tvContent = findViewById(R.id.tvContent);
+        tvContent = findViewById(R.id.tvContent);
 
-        // TODO: 2021/7/6
+        btnEncrypt.setOnClickListener(v -> encrypt());
+        btnDecrypt.setOnClickListener(v -> decrypt());
+    }
+
+    private void encrypt() {
+        String encryptContent = etInput.getText().toString().trim();
+        try {
+            encode = Des3Utils.encode(encryptContent);
+            tvContent.setText(encode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void decrypt() {
+        try {
+            String decode = Des3Utils.decode(encode);
+            tvContent.setText(decode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
