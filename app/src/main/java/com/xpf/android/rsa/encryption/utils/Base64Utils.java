@@ -1,4 +1,12 @@
-package com.xpf.android.rsa.encryption;
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
+package com.xpf.android.rsa.encryption.utils;
 
 import java.io.UnsupportedEncodingException;
 
@@ -23,46 +31,49 @@ public class Base64Utils {
                     -1, -1, -1};
 
     /**
-     * ????
+     * 编码
      *
-     * @param data
-     * @return
+     * @param data 明文
+     * @return 密文
      */
     public static String encode(byte[] data) {
         StringBuffer sb = new StringBuffer();
-        int len = data.length;
-        int i = 0;
-        int b1, b2, b3;
-        while (i < len) {
-            b1 = data[i++] & 0xff;
-            if (i == len) {
-                sb.append(base64EncodeChars[b1 >>> 2]);
-                sb.append(base64EncodeChars[(b1 & 0x3) << 4]);
-                sb.append("==");
-                break;
-            }
-            b2 = data[i++] & 0xff;
-            if (i == len) {
+        if (data != null) {
+            int len = data.length;
+            int i = 0;
+            int b1, b2, b3;
+            while (i < len) {
+                b1 = data[i++] & 0xff;
+                if (i == len) {
+                    sb.append(base64EncodeChars[b1 >>> 2]);
+                    sb.append(base64EncodeChars[(b1 & 0x3) << 4]);
+                    sb.append("==");
+                    break;
+                }
+                b2 = data[i++] & 0xff;
+                if (i == len) {
+                    sb.append(base64EncodeChars[b1 >>> 2]);
+                    sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
+                    sb.append(base64EncodeChars[(b2 & 0x0f) << 2]);
+                    sb.append("=");
+                    break;
+                }
+                b3 = data[i++] & 0xff;
                 sb.append(base64EncodeChars[b1 >>> 2]);
                 sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
-                sb.append(base64EncodeChars[(b2 & 0x0f) << 2]);
-                sb.append("=");
-                break;
+                sb.append(base64EncodeChars[((b2 & 0x0f) << 2) | ((b3 & 0xc0) >>> 6)]);
+                sb.append(base64EncodeChars[b3 & 0x3f]);
             }
-            b3 = data[i++] & 0xff;
-            sb.append(base64EncodeChars[b1 >>> 2]);
-            sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
-            sb.append(base64EncodeChars[((b2 & 0x0f) << 2) | ((b3 & 0xc0) >>> 6)]);
-            sb.append(base64EncodeChars[b3 & 0x3f]);
         }
+
         return sb.toString();
     }
 
     /**
-     * ????
+     * 解码
      *
-     * @param str
-     * @return
+     * @param str 密文
+     * @return 明文
      */
     public static byte[] decode(String str) {
         try {
@@ -73,18 +84,28 @@ public class Base64Utils {
         return new byte[]{};
     }
 
+    /**
+     * 解码私钥
+     *
+     * @param str
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     private static byte[] decodePrivate(String str) throws UnsupportedEncodingException {
         StringBuffer sb = new StringBuffer();
         byte[] data = null;
-        data = str.getBytes("US-ASCII");
+        data = str.getBytes("utf-8");
+
         int len = data.length;
         int i = 0;
         int b1, b2, b3, b4;
+
         while (i < len) {
 
             do {
                 b1 = base64DecodeChars[data[i++]];
             } while (i < len && b1 == -1);
+
             if (b1 == -1) {
                 break;
             }
@@ -92,9 +113,11 @@ public class Base64Utils {
             do {
                 b2 = base64DecodeChars[data[i++]];
             } while (i < len && b2 == -1);
+
             if (b2 == -1) {
                 break;
             }
+
             sb.append((char) ((b1 << 2) | ((b2 & 0x30) >>> 4)));
 
             do {
@@ -104,9 +127,11 @@ public class Base64Utils {
                 }
                 b3 = base64DecodeChars[b3];
             } while (i < len && b3 == -1);
+
             if (b3 == -1) {
                 break;
             }
+
             sb.append((char) (((b2 & 0x0f) << 4) | ((b3 & 0x3c) >>> 2)));
 
             do {
@@ -116,11 +141,14 @@ public class Base64Utils {
                 }
                 b4 = base64DecodeChars[b4];
             } while (i < len && b4 == -1);
+
             if (b4 == -1) {
                 break;
             }
+
             sb.append((char) (((b3 & 0x03) << 6) | b4));
         }
+
         return sb.toString().getBytes("iso8859-1");
     }
 

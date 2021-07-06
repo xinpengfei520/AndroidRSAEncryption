@@ -2,6 +2,8 @@ package com.xpf.android.rsa.encryption;
 
 import android.util.Log;
 
+import com.xpf.android.rsa.encryption.utils.Base64Utils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

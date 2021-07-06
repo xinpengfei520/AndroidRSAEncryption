@@ -1,4 +1,4 @@
-package com.xpf.android.rsa.encryption;
+package com.xpf.android.rsa.encryption.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.xpf.android.rsa.encryption.R;
+import com.xpf.android.rsa.encryption.RSAUtils;
+import com.xpf.android.rsa.encryption.utils.Base64Utils;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
@@ -15,7 +19,7 @@ import java.security.PublicKey;
  * Created by xpf on 2019.05.16 :)
  * Function:
  */
-public class MainActivity extends Activity implements OnClickListener {
+public class RSAEncryptionActivity extends Activity implements OnClickListener {
 
     private static final String TAG = "MainActivity";
     /**
@@ -53,7 +57,7 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_rsa_encryption);
         initView();
     }
 
